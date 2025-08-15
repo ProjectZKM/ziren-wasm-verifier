@@ -8,7 +8,6 @@
 import * as wasm from "../../verifier/pkg/zkm_wasm_verifier.js"
 import fs from 'node:fs'
 import path from 'node:path'
-import assert from 'node:assert'
 
 // Convert a hexadecimal string to a Uint8Array
 export const fromHexString = (hexString) =>
