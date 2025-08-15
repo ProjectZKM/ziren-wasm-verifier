@@ -5,6 +5,7 @@ This repo demonstrates how to verify Groth16 and Plonk proofs in browser. We wra
 ## Repo overview
 
 - `verifier`: The rust Ziren verifier crate with wasm bindings.
+- `example/eth_wasm`: A short javascript example that verifies an ETH proof in wasm.
 - `example/guest`: A simple fibonacci Ziren guest to verify.
 - `example/host`: A simple host to generate proofs in a json format.
 - `example/wasm_example`: A short javascript example that verifies proofs in wasm.
@@ -73,7 +74,7 @@ let json_proof = serde_json::to_string(&fixture).expect("Failed to serialize pro
 std::fs::write(json_path, json_proof).expect("Failed to write JSON proof");
 ```
 
-### Verify proofs in wasm
+### Verify fibonacci proofs in wasm
 
 To verify proofs in wasm, run the following command from the `example/wasm_example` directory:
 
@@ -130,3 +131,36 @@ if (zkpType == 'stark') {
     console.log(`Proof in ${file} is valid.`);
 }
 ```
+
+### Verify ETH proofs in wasm
+
+To verify an ETH proof in wasm, run the following command from the `example/eth_wasm` directory:
+
+```bash
+pnpm install
+pnpm run test
+```
+
+This runs [`main.js`](example/eth_wasm/main.js), which verifies an ETH proof in `example/binaries`.
+The proof is downloaded from https://ethproofs.org. And the vk is downloaded from Ziren prover network.
+See the following snippet for details:
+
+```javascript
+import * as wasm from "../../verifier/pkg/zkm_wasm_verifier.js"
+import fs from 'node:fs'
+
+const vkey = fs.readFileSync('../binaries/eth_vk.bin');
+
+// Download the proof from https://ethproofs.org/blocks/23174100 > ZKM
+const proof = fs.readFileSync('../binaries/23174100_ZKM_167157.txt');
+
+const startTime = performance.now();
+const result = wasm.verify_stark_proof(proof, vkey);
+const endTime = performance.now();
+
+console.log(`stark verification took ${endTime - startTime}ms`);
+console.assert(result, "result:", result, "proof should be valid");
+console.log(`ETH proof is valid.`);
+```
+
+The wasm STARK verifier is used by [@ethproofs/ziren-wasm-stark-verifier](https://www.npmjs.com/package/@ethproofs/ziren-wasm-stark-verifier)
