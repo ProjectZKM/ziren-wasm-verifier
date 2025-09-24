@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 zkm-sdk.workspace = true
-zkm-verifier = { workspace = true, features = ["dummy-vk-map"] }
+zkm-verifier = { workspace = true }
 clap = { version = "4.0", features = ["derive"] }
 hex = "0.4.3"
 serde = "1.0"

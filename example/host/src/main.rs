@@ -71,7 +71,8 @@ fn main() {
                     proof.bytes().as_ref(),
                     proof.public_values.as_ref(),
                     bincode::serialize(&vk).unwrap().as_ref(),
-                ).expect("Stark proof verification failed");
+                )
+                .expect("Stark proof verification failed");
 
                 proof
             }
@@ -86,8 +87,9 @@ fn main() {
                     proof.bytes().as_ref(),
                     proof.public_values.as_ref(),
                     vk.bytes32().as_ref(),
-                    *GROTH16_VK_BYTES
-                ).expect("Groth16 proof verification failed");
+                    *GROTH16_VK_BYTES,
+                )
+                .expect("Groth16 proof verification failed");
 
                 proof
             }
@@ -102,8 +104,9 @@ fn main() {
                     proof.bytes().as_ref(),
                     proof.public_values.as_ref(),
                     vk.bytes32().as_ref(),
-                    *PLONK_VK_BYTES
-                ).expect("Plonk proof verification failed");
+                    *PLONK_VK_BYTES,
+                )
+                .expect("Plonk proof verification failed");
 
                 proof
             }
