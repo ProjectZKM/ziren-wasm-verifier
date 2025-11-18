@@ -11,7 +11,7 @@ import fs from 'node:fs'
 const vkey = fs.readFileSync('../binaries/eth_vk.bin');
 
 // Download the proof from https://ethproofs.org/blocks/23645600 > ZKM
-const proof = fs.readFileSync('../binaries/zkm_23645600_288118.bin');
+const proof = fs.readFileSync('../binaries/zkm_84a01f4b-8078-44cf-b463-90ddcd124960_812840.bin');
 
 const startTime = performance.now();
 const result = wasm.verify_stark_proof(proof, vkey);
