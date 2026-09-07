@@ -10,6 +10,37 @@ This repo demonstrates how to verify Groth16 and Plonk proofs in browser. We wra
 - `example/host`: A simple host to generate proofs in a json format.
 - `example/wasm_example`: A short javascript example that verifies proofs in wasm.
 
+## Ziren version and toolchains
+
+This branch tracks Ziren `feat/upgrade-plonky3` (workspace version `2.0.0`, the
+Plonky3-based jagged-over-WHIR stack, KoalaBear).  The pinned revision is in the workspace
+`Cargo.toml` (`rev = ...`); bump it there and run `cargo update -p zkm-verifier -p zkm-sdk
+-p zkm-zkvm -p zkm-build`.
+
+- The host and the wasm crate need the nightly pinned in `rust-toolchain.toml` (the same one
+  Ziren uses); `wasm32-unknown-unknown` must be added to it
+  (`rustup target add wasm32-unknown-unknown`).
+- The guest is built by `zkm-build` from the host's build script with the Ziren toolchain
+  (`zkmup`), which must be first on `PATH` (`source ~/.zkm-toolchain/env`).  Building the guest
+  with a plain nightly produces an ELF the executor rejects.
+- `zkm-recursion-gnark-ffi` (pulled in by `zkm-sdk`) needs Go 1.23+ on `PATH` to build the host.
+
+### What the verifier accepts
+
+`zkm-verifier` only accepts a compressed STARK proof whose recursion verifying key is in the
+allowed key map compiled into the crate (`crates/prover/vk_map.bin` in Ziren).  In the
+`2.0.0` stack that map holds the enumerated compose/shrink keys plus the leaf keys collected
+for the production programs (the reth block guest), so:
+
+- ETH block proofs from the Ziren prover network verify (see `example/eth_wasm`);
+- a proof of an arbitrary guest such as `example/guest` is rejected with
+  `Recursion(Invalid verification key)` until its keys are added to the map.  The fibonacci
+  fixture in `example/json` is kept for exercising the bindings; `example/wasm_example`
+  prints the verifier's answer for it instead of asserting.
+- Groth16 / Plonk proofs go through the same map inside the wrap circuit, so they exist only
+  for programs the map covers.  The Groth16 key in `zkm-verifier` is the August 2026 ceremony
+  key for the `v2.0.0` wrap circuit; there is no `v2.0.0` Plonk artifact set yet.
+
 ## Usage
 
 ### Wasm Bindings
@@ -143,7 +174,8 @@ pnpm run test
 ```
 
 This runs [`main.js`](example/eth_wasm/main.js), which verifies an ETH proof in `example/binaries`.
-The proof is downloaded from https://ethproofs.org. And the vk is downloaded from Ziren prover network.
+The proof is downloaded from https://ethproofs.org (`GET /api/v0/proofs/download/<proof_id>`). The vk is
+`bincode(vk)` of the reth block guest the cluster runs (`client.setup(ELF)`), stored as `eth_vk.bin`.
 See the following snippet for details:
 
 ```javascript
@@ -152,8 +184,9 @@ import fs from 'node:fs'
 
 const vkey = fs.readFileSync('../binaries/eth_vk.bin');
 
-// Download the proof from https://ethproofs.org/blocks/23174100 > ZKM
-const proof = fs.readFileSync('../binaries/23174100_ZKM_167157.txt');
+// Block 25921700, proved by the Ziren cluster on https://ethproofs.org
+// (cluster 84a01f4b-8078-44cf-b463-90ddcd124960, proof 22393276, 617,622 bytes).
+const proof = fs.readFileSync('../binaries/zkm_84a01f4b-8078-44cf-b463-90ddcd124960_25921700.bin');
 
 const startTime = performance.now();
 const result = wasm.verify_stark_proof(proof, vkey);

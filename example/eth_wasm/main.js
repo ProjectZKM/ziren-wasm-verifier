@@ -10,8 +10,10 @@ import fs from 'node:fs'
 
 const vkey = fs.readFileSync('../binaries/eth_vk.bin');
 
-// Download the proof from https://ethproofs.org/clusters/84a01f4b-8078-44cf-b463-90ddcd124960 > 24875200
-const proof = fs.readFileSync('../binaries/zkm_84a01f4b-8078-44cf-b463-90ddcd124960_11065151.bin');
+// Block 25921700, proved by the Ziren cluster on https://ethproofs.org
+// (cluster 84a01f4b-8078-44cf-b463-90ddcd124960, proof 22393276, downloaded with
+// GET /api/v0/proofs/download/22393276).
+const proof = fs.readFileSync('../binaries/zkm_84a01f4b-8078-44cf-b463-90ddcd124960_25921700.bin');
 
 const startTime = performance.now();
 const result = wasm.verify_stark_proof(proof, vkey);
