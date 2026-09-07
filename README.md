@@ -174,8 +174,12 @@ pnpm run test
 ```
 
 This runs [`main.js`](example/eth_wasm/main.js), which verifies an ETH proof in `example/binaries`.
-The proof is downloaded from https://ethproofs.org (`GET /api/v0/proofs/download/<proof_id>`). The vk is
-`bincode(vk)` of the reth block guest the cluster runs (`client.setup(ELF)`), stored as `eth_vk.bin`.
+The proof is a compressed STARK of mainnet block 25907955 made by the same prover build the ethproofs
+cluster runs, with `VERIFY_VK=true` (the compose programs then check their children against the allowed
+key map, and the verifier checks the proof's key against the same map). Proofs the cluster currently
+uploads to https://ethproofs.org are made with `VERIFY_VK=false` and are rejected by this verifier with
+`Recursion(Invalid verification key)`; switch the cluster to `VERIFY_VK=true` to make them verifiable.
+The vk is `bincode(vk)` of the reth block guest (`client.setup(ELF)`), stored as `eth_vk.bin`.
 See the following snippet for details:
 
 ```javascript
@@ -184,9 +188,10 @@ import fs from 'node:fs'
 
 const vkey = fs.readFileSync('../binaries/eth_vk.bin');
 
-// Block 25921700, proved by the Ziren cluster on https://ethproofs.org
-// (cluster 84a01f4b-8078-44cf-b463-90ddcd124960, proof 22393276, 617,622 bytes).
-const proof = fs.readFileSync('../binaries/zkm_84a01f4b-8078-44cf-b463-90ddcd124960_25921700.bin');
+// Mainnet block 25907955, proved by the Ziren 2.0.0 prover (the ethproofs cluster
+// 84a01f4b-8078-44cf-b463-90ddcd124960 build) with recursion-key verification on
+// (VERIFY_VK=true), which is what the strict verifier requires.  617,622 bytes.
+const proof = fs.readFileSync('../binaries/zkm_84a01f4b-8078-44cf-b463-90ddcd124960_25907955.bin');
 
 const startTime = performance.now();
 const result = wasm.verify_stark_proof(proof, vkey);

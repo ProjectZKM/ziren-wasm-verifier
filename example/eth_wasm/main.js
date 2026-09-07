@@ -10,10 +10,10 @@ import fs from 'node:fs'
 
 const vkey = fs.readFileSync('../binaries/eth_vk.bin');
 
-// Block 25921700, proved by the Ziren cluster on https://ethproofs.org
-// (cluster 84a01f4b-8078-44cf-b463-90ddcd124960, proof 22393276, downloaded with
-// GET /api/v0/proofs/download/22393276).
-const proof = fs.readFileSync('../binaries/zkm_84a01f4b-8078-44cf-b463-90ddcd124960_25921700.bin');
+// Mainnet block 25907955, proved by the Ziren 2.0.0 prover (the ethproofs cluster
+// 84a01f4b-8078-44cf-b463-90ddcd124960 build) with recursion-key verification on
+// (VERIFY_VK=true), which is what the strict verifier requires.  617,622 bytes.
+const proof = fs.readFileSync('../binaries/zkm_84a01f4b-8078-44cf-b463-90ddcd124960_25907955.bin');
 
 const startTime = performance.now();
 const result = wasm.verify_stark_proof(proof, vkey);
