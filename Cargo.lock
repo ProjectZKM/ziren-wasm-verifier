@@ -5392,6 +5392,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "ruzstd"
+version = "0.7.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fad02996bfc73da3e301efe90b1837be9ed8f4a462b6ed410aa35d00381de89f"
+
+[[package]]
 name = "ryu"
 version = "1.0.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -8092,6 +8098,7 @@ dependencies = [
 name = "zkm-wasm-verifier"
 version = "1.0.0"
 dependencies = [
+ "ruzstd",
  "wasm-bindgen",
  "zkm-verifier",
 ]
