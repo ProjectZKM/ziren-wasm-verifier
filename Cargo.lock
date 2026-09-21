@@ -114,21 +114,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "alloy-signer"
-version = "1.8.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "43f447aefab0f1c0649f71edc33f590992d4e122bc35fb9cdbbf67d4421ace85"
-dependencies = [
- "alloy-primitives",
- "async-trait",
- "auto_impl",
- "either",
- "elliptic-curve",
- "k256",
- "thiserror 2.0.18",
-]
-
-[[package]]
 name = "android_system_properties"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2151,6 +2136,16 @@ name = "fibonacci-guest"
 version = "1.0.0"
 dependencies = [
  "zkm-zkvm",
+]
+
+[[package]]
+name = "filetime"
+version = "0.2.29"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5c287a33c7f0a620c38e641e7f60827713987b3c0f26e8ddc9462cc69cf75759"
+dependencies = [
+ "cfg-if",
+ "libc",
 ]
 
 [[package]]
@@ -6019,6 +6014,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "55937e1799185b12863d447f42597ed69d9928686b8d88a1df17376a097d8369"
 
 [[package]]
+name = "tar"
+version = "0.4.46"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3f6221d9a6003c78398e3b239969f352578258df48c8eb051caadae0015bc840"
+dependencies = [
+ "filetime",
+ "libc",
+ "xattr",
+]
+
+[[package]]
 name = "tempfile"
 version = "3.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7387,6 +7393,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "xattr"
+version = "1.6.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "32e45ad4206f6d2479085147f02bc2ef834ac85886624a23575ae137c8aa8156"
+dependencies = [
+ "libc",
+ "rustix 1.1.4",
+]
+
+[[package]]
 name = "yansi"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7559,7 +7575,7 @@ dependencies = [
 [[package]]
 name = "zkm-build"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "anyhow",
  "cargo_metadata",
@@ -7570,7 +7586,7 @@ dependencies = [
 [[package]]
 name = "zkm-core-executor"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "anyhow",
  "bincode",
@@ -7614,7 +7630,7 @@ dependencies = [
 [[package]]
 name = "zkm-core-jit"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "dynasmrt",
  "hashbrown 0.14.5",
@@ -7631,7 +7647,7 @@ dependencies = [
 [[package]]
 name = "zkm-core-machine"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "bincode",
  "cfg-if",
@@ -7683,7 +7699,7 @@ dependencies = [
 [[package]]
 name = "zkm-cuda"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "bincode",
  "ctrlc",
@@ -7701,7 +7717,7 @@ dependencies = [
 [[package]]
 name = "zkm-curves"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "cfg-if",
  "curve25519-dalek",
@@ -7725,7 +7741,7 @@ dependencies = [
 [[package]]
 name = "zkm-derive"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -7748,7 +7764,7 @@ dependencies = [
 [[package]]
 name = "zkm-lib"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "bincode",
  "cfg-if",
@@ -7761,7 +7777,7 @@ dependencies = [
 [[package]]
 name = "zkm-pcs"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "arrayref",
  "bincode",
@@ -7808,7 +7824,7 @@ dependencies = [
 [[package]]
 name = "zkm-poly"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "itertools 0.13.0",
  "p3-field 0.5.1",
@@ -7837,9 +7853,10 @@ dependencies = [
 [[package]]
 name = "zkm-primitives"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "bincode",
+ "blake3",
  "hex",
  "lazy_static",
  "num-bigint 0.4.6",
@@ -7850,18 +7867,20 @@ dependencies = [
  "p3-symmetric 0.5.1",
  "serde",
  "sha2",
+ "tracing",
 ]
 
 [[package]]
 name = "zkm-prover"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "anyhow",
  "bincode",
  "clap",
  "dirs",
  "eyre",
+ "hex",
  "itertools 0.13.0",
  "lru",
  "num-bigint 0.4.6",
@@ -7889,12 +7908,13 @@ dependencies = [
  "zkm-recursion-compiler",
  "zkm-recursion-core",
  "zkm-recursion-gnark-ffi",
+ "zkm-recursion-jit",
 ]
 
 [[package]]
 name = "zkm-recursion-circuit"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "hashbrown 0.14.5",
  "itertools 0.13.0",
@@ -7927,7 +7947,7 @@ dependencies = [
 [[package]]
 name = "zkm-recursion-compiler"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "backtrace",
  "itertools 0.13.0",
@@ -7948,7 +7968,7 @@ dependencies = [
 [[package]]
 name = "zkm-recursion-core"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "backtrace",
  "bincode",
@@ -7987,7 +8007,7 @@ dependencies = [
 [[package]]
 name = "zkm-recursion-derive"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "quote",
  "syn 1.0.109",
@@ -7996,7 +8016,7 @@ dependencies = [
 [[package]]
 name = "zkm-recursion-gnark-ffi"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "anyhow",
  "bincode",
@@ -8018,18 +8038,31 @@ dependencies = [
 ]
 
 [[package]]
+name = "zkm-recursion-jit"
+version = "2.0.0"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
+dependencies = [
+ "dynasmrt",
+ "p3-field 0.5.1",
+ "p3-koala-bear 0.5.1",
+ "thiserror 1.0.69",
+ "tracing",
+ "zkm-recursion-core",
+]
+
+[[package]]
 name = "zkm-sdk"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "alloy-primitives",
- "alloy-signer",
  "anyhow",
  "async-trait",
  "bincode",
  "cfg-if",
  "dirs",
  "ethers",
+ "flate2",
  "futures",
  "hashbrown 0.14.5",
  "hex",
@@ -8046,6 +8079,7 @@ dependencies = [
  "serde_json",
  "strum",
  "strum_macros",
+ "tar",
  "tempfile",
  "thiserror 1.0.69",
  "tokio",
@@ -8067,7 +8101,7 @@ dependencies = [
 [[package]]
 name = "zkm-verifier"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "anyhow",
  "bincode",
@@ -8106,7 +8140,7 @@ dependencies = [
 [[package]]
 name = "zkm-zkvm"
 version = "2.0.0"
-source = "git+https://github.com/ProjectZKM/Ziren?rev=48629f0ef13f951717cc2309c1aa5835a29f6b5a#48629f0ef13f951717cc2309c1aa5835a29f6b5a"
+source = "git+https://github.com/ProjectZKM/Ziren?rev=369055acb3074cd2377a9e4073b5256a41fad7aa#369055acb3074cd2377a9e4073b5256a41fad7aa"
 dependencies = [
  "bincode",
  "cfg-if",
