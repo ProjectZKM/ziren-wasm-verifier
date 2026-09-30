@@ -1,6 +1,19 @@
 # Ziren Wasm verification example
 
-This repo demonstrates how to verify Groth16 and Plonk proofs in browser. We wrap the [`ziren-verifier`](https://github.com/ProjectZKM/Ziren.git) crate in wasm bindings, and invoke it from javascript.
+This repo demonstrates how to verify Ziren STARK, Groth16 and Plonk proofs in browser. We wrap the [`ziren-verifier`](https://github.com/ProjectZKM/Ziren.git) crate in wasm bindings, and invoke it from javascript.
+
+## Ziren version
+
+The verifier is built against Ziren V2.0, pinned to
+[`1f457354`](https://github.com/ProjectZKM/Ziren/commit/1f4573542fc8c40839a47eafeefffff5cec2dfbd)
+in the workspace `Cargo.toml`. It accepts proofs from V2.0 provers only: the recursion verifying-key root
+(`0x0035eacf…`, in `zkm-verifier`'s `bn254-vk/vk_root.bin`) changed in V2.0, so STARK proofs from earlier
+releases fail with an invalid verification key, and Groth16/Plonk proofs from earlier releases fail against
+the V2.0 circuit keys.
+
+`verify_stark` and `verify_stark_proof` also accept a proof compressed as a single zstd frame, and decode it in
+wasm with [`ruzstd`](https://crates.io/crates/ruzstd). Uncompressed proofs are verified as before, and the JS API
+is unchanged.
 
 ## Repo overview
 
@@ -17,13 +30,12 @@ This repo demonstrates how to verify Groth16 and Plonk proofs in browser. We wra
 First, generate the wasm library for the verifier. From the `verifier` directory, run
 
 ```bash
-wasm-pack build --target nodejs --dev 
+wasm-pack build --target nodejs --release
 ```
 
 This will generate wasm bindings for the rust functions in [`verifier/src/lib.rs`](verifier/src/lib.rs).
 > [!Note]
-> Generating wasm bindings in dev mode will result in drastically slower verification times.
-> Generate bindings in release mode by replacing `--dev` with `--release`.
+> Generating wasm bindings in dev mode (`--dev`) will result in drastically slower verification times.
 
 As an example, the following snippet provides wasm bindings for the `verify_groth16` function:
 
@@ -36,7 +48,8 @@ pub fn verify_groth16(proof: &[u8], public_inputs: &[u8], zkm_vk_hash: &str) -> 
 
 ### Generate proofs
 
-Next, run the host to generate `fibonacci_groth16_proof.json` and `fibonacci_plonk_proof.json`. From the `example/host` directory, run:
+Next, run the host to generate `fibonacci_groth16_proof.json` and `fibonacci_plonk_proof.json`. The host builds the guest,
+which needs the Ziren V2.0 toolchain and Rust `nightly-2026-07-17`. From the `example/host` directory, run:
 
 ```bash
 cargo run --release -- --mode stark
@@ -62,7 +75,7 @@ we extract the proof and public inputs, and serialize the appropriate fields. Se
 // Load the proof and extract the proof and public inputs.
 let proof = ZKMProofWithPublicValues::load(&proof_path).expect("Failed to load proof");
 let fixture = ProofData {
-    proof: hex::encode(proof.bytes()),
+    proof: hex::encode(proof.bytes().expect("proof bytes")),
     public_inputs: hex::encode(proof.public_values),
     vkey_hash: vk.bytes32(),
     vkey,
@@ -144,6 +157,10 @@ pnpm run test
 
 This runs [`main.js`](example/eth_wasm/main.js), which verifies an ETH proof in `example/binaries`.
 The proof is downloaded from https://ethproofs.org. And the vk is downloaded from Ziren prover network.
+
+> [!Note]
+> `eth_vk.bin` and `zkm_84a01f4b-…_11065151.bin` were produced by a pre-V2.0 prover, so this verifier rejects them.
+> Replace them with a proof and program vk from a prover running Ziren V2.0.
 See the following snippet for details:
 
 ```javascript

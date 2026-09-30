@@ -68,7 +68,7 @@ fn main() {
                     .expect("Stark proof generation failed");
 
                 StarkVerifier::verify(
-                    proof.bytes().as_ref(),
+                    proof.bytes().expect("proof bytes").as_ref(),
                     proof.public_values.as_ref(),
                     bincode::serialize(&vk).unwrap().as_ref(),
                 )
@@ -84,7 +84,7 @@ fn main() {
                     .expect("Groth16 proof generation failed");
 
                 Groth16Verifier::verify(
-                    proof.bytes().as_ref(),
+                    proof.bytes().expect("proof bytes").as_ref(),
                     proof.public_values.as_ref(),
                     vk.bytes32().as_ref(),
                     *GROTH16_VK_BYTES,
@@ -101,7 +101,7 @@ fn main() {
                     .expect("Plonk proof generation failed");
 
                 PlonkVerifier::verify(
-                    proof.bytes().as_ref(),
+                    proof.bytes().expect("proof bytes").as_ref(),
                     proof.public_values.as_ref(),
                     vk.bytes32().as_ref(),
                     *PLONK_VK_BYTES,
@@ -126,7 +126,7 @@ fn main() {
     // Load the proof, extract the proof and public inputs, and serialize the appropriate fields.
     let proof = ZKMProofWithPublicValues::load(&proof_path).expect("Failed to load proof");
     let fixture = ProofData {
-        proof: hex::encode(proof.bytes()),
+        proof: hex::encode(proof.bytes().expect("proof bytes")),
         public_inputs: hex::encode(proof.public_values),
         vkey_hash: vk.bytes32(),
         vkey,
