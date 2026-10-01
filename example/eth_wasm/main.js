@@ -18,5 +18,8 @@ const result = wasm.verify_stark_proof(proof, vkey);
 const endTime = performance.now();
 
 console.log(`stark verification took ${endTime - startTime}ms`);
-console.assert(result, "result:", result, "proof should be valid");
+if (!result) {
+    console.error("ETH proof is invalid.");
+    process.exit(1);
+}
 console.log(`ETH proof is valid.`);

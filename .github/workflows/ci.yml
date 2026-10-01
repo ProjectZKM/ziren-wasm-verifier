@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    name: Build and verify the example proofs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: nightly-2026-01-08
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-pack
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build the wasm verifier
+        working-directory: verifier
+        run: wasm-pack build --target nodejs --release
+      - name: Verify the Fibonacci STARK, Groth16 and Plonk proofs
+        working-directory: example/wasm_example
+        run: node main.js
+      - name: Verify the Ethereum block proof
+        working-directory: example/eth_wasm
+        run: node main.js
+        # The committed block proof predates Ziren V2.0; drop this line once it is replaced.
+        continue-on-error: true

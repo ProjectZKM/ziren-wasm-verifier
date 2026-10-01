@@ -48,7 +48,11 @@ for (const file of files) {
             const result = wasm.verify_stark(proof, public_inputs, vkey);
             const endTime = performance.now();
             console.log(`${zkpType} verification took ${endTime - startTime}ms`);
-            console.assert(result, "result:", result, "proof should be valid");
+            if (!result) {
+                console.error(`Proof in ${file} is invalid.`);
+                process.exitCode = 1;
+                continue;
+            }
             console.log(`Proof in ${file} is valid.`);
         } else {
             // Select the appropriate verification function and verification key based on ZKP type
@@ -58,10 +62,15 @@ for (const file of files) {
             const result = verifyFunction(proof, public_inputs, vkey_hash);
             const endTime = performance.now();
             console.log(`${zkpType} verification took ${endTime - startTime}ms`);
-            console.assert(result, "result:", result, "proof should be valid");
+            if (!result) {
+                console.error(`Proof in ${file} is invalid.`);
+                process.exitCode = 1;
+                continue;
+            }
             console.log(`Proof in ${file} is valid.`);
         }
     } catch (error) {
         console.error(`Error processing ${file}: ${error.message}`);
+        process.exitCode = 1;
     }
 }
