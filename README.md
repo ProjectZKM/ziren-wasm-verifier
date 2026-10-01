@@ -2,15 +2,6 @@
 
 This repo demonstrates how to verify Ziren STARK, Groth16 and Plonk proofs in browser. We wrap the [`ziren-verifier`](https://github.com/ProjectZKM/Ziren.git) crate in wasm bindings, and invoke it from javascript.
 
-## Ziren version
-
-The verifier is built against Ziren V2.0
-([`1f457354`](https://github.com/ProjectZKM/Ziren/commit/1f4573542fc8c40839a47eafeefffff5cec2dfbd),
-recorded in `Cargo.lock`). It accepts proofs from V2.0 provers only: the recursion verifying-key root
-(`0x0035eacf…`, in `zkm-verifier`'s `bn254-vk/vk_root.bin`) changed in V2.0, so STARK proofs from earlier
-releases fail with an invalid verification key, and Groth16/Plonk proofs from earlier releases fail against
-the V2.0 circuit keys.
-
 ## Repo overview
 
 - `verifier`: The rust Ziren verifier crate with wasm bindings.
