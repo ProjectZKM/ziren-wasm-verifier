@@ -36,7 +36,7 @@ pub fn verify_groth16(proof: &[u8], public_inputs: &[u8], zkm_vk_hash: &str) -> 
 ### Generate proofs
 
 Next, run the host to generate `fibonacci_groth16_proof.json` and `fibonacci_plonk_proof.json`. The host builds the guest,
-which needs the Ziren V2.0 toolchain and Rust `nightly-2026-01-08`. From the `example/host` directory, run:
+which needs the Ziren V2.0 toolchain and Rust `nightly-2026-09-17`. From the `example/host` directory, run:
 
 ```bash
 cargo run --release -- --mode stark
