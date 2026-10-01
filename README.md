@@ -36,7 +36,7 @@ pub fn verify_groth16(proof: &[u8], public_inputs: &[u8], zkm_vk_hash: &str) -> 
 ### Generate proofs
 
 Next, run the host to generate `fibonacci_groth16_proof.json` and `fibonacci_plonk_proof.json`. The host builds the guest,
-which needs the Ziren V2.0 toolchain and Rust `nightly-2026-07-17`. From the `example/host` directory, run:
+which needs the Ziren V2.0 toolchain and Rust `nightly-2026-01-08`. From the `example/host` directory, run:
 
 ```bash
 cargo run --release -- --mode stark
@@ -146,8 +146,8 @@ This runs [`main.js`](example/eth_wasm/main.js), which verifies an ETH proof in 
 The proof is downloaded from https://ethproofs.org. And the vk is downloaded from Ziren prover network.
 
 > [!Note]
-> `eth_vk.bin` and `zkm_84a01f4b-…_11065151.bin` were produced by a pre-V2.0 prover, so this verifier rejects them.
-> Replace them with a proof and program vk from a prover running Ziren V2.0.
+> `eth_vk.bin` is the Ziren V2.0 verifying key of the block-execution guest, but `zkm_84a01f4b-…_11065151.bin` was
+> produced by a pre-V2.0 prover, so this verifier rejects it. Replace it with a proof from a prover running Ziren V2.0.
 See the following snippet for details:
 
 ```javascript
